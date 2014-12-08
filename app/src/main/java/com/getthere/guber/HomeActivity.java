@@ -1,5 +1,6 @@
 package com.getthere.guber;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +36,7 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new RankingFragment())
+                    .add(R.id.container, new RouteFragment())
                     .commit();
         }
     }
@@ -55,5 +59,29 @@ public class HomeActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static class RouteFragment extends Fragment {
+
+        public RouteFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+            Button searchButton= (Button) rootView.findViewById(R.id.search_button);
+
+            searchButton.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view){
+                    Intent intent = new Intent(getActivity(), RankingActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            return rootView;
+        }
     }
 }

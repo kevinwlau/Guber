@@ -81,7 +81,7 @@ public class Geocode extends AsyncTask<String, Void, ArrayList<String>> {
         return location;
     }
 
-    @Override
-    protected void onPostExecute(ArrayList<String> location){
-    }
+//    public String getFormattedAddress(){
+//        return formattedAddress;
+//    }
 }
