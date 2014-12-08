@@ -19,12 +19,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
-            android:label="@string/title_activity_detail"
+            android:name=".RankingActivity"
+            android:label="@string/title_activity_ranking"
             android:parentActivityName=".HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.manavm.sunshine.app.MainActivity" />
+                android:value="com.getthere.guber.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".RankingActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.getthere.guber.RankingActivity" />
         </activity>
     </application>
 
