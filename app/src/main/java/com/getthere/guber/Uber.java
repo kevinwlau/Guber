@@ -1,8 +1,9 @@
-package com.gubertravel.guber;
+package com.getthere.guber;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,7 +22,13 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
 public class Uber extends AsyncTask<Double, Void, String> {
-    public AsyncResponse delegate2 = null;
+
+    private ArrayAdapter<String> mForecastAdapter;
+
+    public Uber(ArrayAdapter<String> mForecastAdapter){
+        this.mForecastAdapter = mForecastAdapter;
+    }
+
     @Override
     protected String doInBackground(Double... params) {
         double cur_lat = params[0];
@@ -81,9 +88,12 @@ public class Uber extends AsyncTask<Double, Void, String> {
         Log.d("Uber", cost);
         return cost;
     }
+
+
+
     @Override
     protected void onPostExecute(String cost){
-        delegate2.getUberCost(cost);
+        mForecastAdapter.add(cost);
     }
 
 }
