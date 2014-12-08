@@ -4,8 +4,5 @@
     <string name="app_name">Guber</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_map">MapActivity</string>
-    <string name="title_activity_display_message">DisplayMessageActivity</string>
-
 
 </resources>

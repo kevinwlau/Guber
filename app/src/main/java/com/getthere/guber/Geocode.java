@@ -1,4 +1,4 @@
-package com.gubertravel.guber;
+package com.getthere.guber;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * Created by kevinlau on 10/12/2014.
  */
 public class Geocode extends AsyncTask<String, Void, ArrayList<String>> {
-    public AsyncResponse delegate=null;
     @Override
     protected ArrayList<String> doInBackground(String... params) {
         String place = params[0];
@@ -84,6 +83,5 @@ public class Geocode extends AsyncTask<String, Void, ArrayList<String>> {
 
     @Override
     protected void onPostExecute(ArrayList<String> location){
-        delegate.markMap(location);
     }
 }

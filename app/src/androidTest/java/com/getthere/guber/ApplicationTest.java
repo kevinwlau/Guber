@@ -1,4 +1,4 @@
-package com.gubertravel.guber;
+package com.getthere.guber;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
