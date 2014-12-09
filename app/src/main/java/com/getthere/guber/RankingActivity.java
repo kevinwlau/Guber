@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.getthere.guber.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +45,7 @@ import java.util.Date;
 
 public class RankingActivity extends ActionBarActivity {
 
-    public ArrayAdapter<String> mForecastAdapter;
+    public ArrayAdapter<Transport> mForecastAdapter;
 
     public RankingActivity() {
     }
@@ -86,7 +87,7 @@ public class RankingActivity extends ActionBarActivity {
 
     public static class ForecastFragment extends Fragment {
 
-        public ArrayAdapter<String> mForecastAdapter;
+        public ArrayAdapter<Transport> mForecastAdapter;
 
         @Override
         public void onStart(){
@@ -95,10 +96,16 @@ public class RankingActivity extends ActionBarActivity {
         }
 
         public void updateRanking(){
-            FetchWeatherTask weatherTask = new FetchWeatherTask(mForecastAdapter);
-            weatherTask.execute("94043");
-            Uber uber = new Uber(mForecastAdapter);
-            uber.execute(30.283336, -97.743954, 30.260510, -97.751083);
+            LatLng start = new LatLng(30.283336, -97.743954);
+            LatLng dest = new LatLng(30.260510, -97.751083);
+            mForecastAdapter = new ArrayAdapter<Transport>(
+                    getActivity(), // The current context (this activity)
+                    R.layout.list_item_forecast, // The name of the layout ID.
+                    R.id.list_item_forecast_textview, // The ID of the textview to populate.
+                    new ArrayList<Transport>());
+            mForecastAdapter.add(new Uber(start, dest));
+            mForecastAdapter.add(new Transit(start, dest));
+            mForecastAdapter.add(new Walk(start, dest));
         }
 
          @Override
@@ -110,11 +117,11 @@ public class RankingActivity extends ActionBarActivity {
             // The ArrayAdapter will take data from a source (like our dummy forecast) and
             // use it to populate the ListView it's attached to.
             mForecastAdapter =
-                    new ArrayAdapter<String>(
+                    new ArrayAdapter<Transport>(
                             getActivity(), // The current context (this activity)
                             R.layout.list_item_forecast, // The name of the layout ID.
                             R.id.list_item_forecast_textview, // The ID of the textview to populate.
-                            new ArrayList<String>());
+                            new ArrayList<Transport>());
 
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -125,8 +132,9 @@ public class RankingActivity extends ActionBarActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    String forecast = mForecastAdapter.getItem(position);
-                    Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, forecast);
+                    Transport transport = mForecastAdapter.getItem(position);
+                    Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,
+                            transport.cost + " " + Integer.toString(transport.duration));
                     startActivity(intent);
                 }
             });
