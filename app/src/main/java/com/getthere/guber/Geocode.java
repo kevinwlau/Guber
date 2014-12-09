@@ -2,7 +2,7 @@ package com.getthere.guber;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
+import com.google.android.gms.maps.model.LatLng;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -14,74 +14,88 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
  * Created by kevinlau on 10/12/2014.
  */
-public class Geocode extends AsyncTask<String, Void, ArrayList<String>> {
+public class Geocode extends AsyncTask<String, Void, LatLng> {
+    String formattedAddress;
+    private static final String LOG_TAG = "ExampleApp";
+    private double[] coordinates;
+    private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/geocode";
+    private static final String OUT_JSON = "/json";
+    // Method to geocode address
+
     @Override
-    protected ArrayList<String> doInBackground(String... params) {
-        String place = params[0];
-        String placeQuery = "https://maps.googleapis.com/maps/api/geocode/json?address=%s";
+    protected LatLng doInBackground(String... params) {
 
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet();
-        HttpResponse response = null;
-        StringBuilder stringBuilder = new StringBuilder();
+        String address = params[0];
+        ArrayList<String> resultList = null;
 
+        HttpURLConnection conn = null;
+        StringBuilder jsonResults = new StringBuilder();
         try {
-            String formattedURI = String.format(placeQuery, URLEncoder.encode(place, "UTF8"));
-            URI query = new URI(formattedURI);
-            request.setURI(query);
-            Log.d("query", formattedURI);
-            response = client.execute(request);
+            StringBuilder sb = new StringBuilder(PLACES_API_BASE + OUT_JSON);
+            sb.append("?address=" + URLEncoder.encode(address, "utf8"));
 
-            HttpEntity entity = response.getEntity();
-            InputStream stream = entity.getContent();
-            int b;
-            while ((b = stream.read()) != -1) {
-                stringBuilder.append((char) b);
+            URL url = new URL(sb.toString());
+            conn = (HttpURLConnection) url.openConnection();
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+            // Load the results into a StringBuilder
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
             }
-        } catch (URISyntaxException e) {
-            Log.d("error", "URIsyntaxexception");
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            Log.d("error", "unsupported encoding exc");
-            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            Log.e(LOG_TAG, "Error processing Maps API URL", e);
         } catch (IOException e) {
-            Log.d("error", "io exc");
-            e.printStackTrace();
+            Log.e(LOG_TAG, "Error connecting to Maps API", e);
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
-
+        double[] coordinates = new double[2];
         JSONObject jsonObject = new JSONObject();
-        ArrayList<String> location = new ArrayList<String>();
+        double lat=0, lng=0;
         try {
-            jsonObject = new JSONObject(stringBuilder.toString());
-            double lat = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-                    .getJSONObject("geometry").getJSONObject("location")
-                    .getDouble("lat");
-            double lng = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
+            JSONObject jsonObj = new JSONObject(jsonResults.toString());
+            lng = ((JSONArray)jsonObj.get("results")).getJSONObject(0)
                     .getJSONObject("geometry").getJSONObject("location")
                     .getDouble("lng");
-            String address = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
+
+            lat = ((JSONArray)jsonObj.get("results")).getJSONObject(0)
+                    .getJSONObject("geometry").getJSONObject("location")
+                    .getDouble("lat");
+
+            formattedAddress = ((JSONArray)jsonObj.get("results")).getJSONObject(0)
                     .getString("formatted_address");
-            location.add(String.valueOf(lat));
-            location.add(String.valueOf(lng));
-            location.add(address);
+
+            Log.d("latitude", "" + lat);
+            Log.d("longitude", "" + lng);
+
+//            locations.latitude = lat;
+//            locations.longitude = lng;
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        return location;
+        LatLng locations = new LatLng(lat, lng);
+        return locations;
     }
 
-//    public String getFormattedAddress(){
-//        return formattedAddress;
-//    }
+    public String getFormattedAddress(){
+        return formattedAddress;
+    }
 }
