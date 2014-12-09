@@ -37,11 +37,11 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
         double cur_long = car2Go.getStart().longitude;
 
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https").authority("api.uber.com")
-                .appendPath("v1").appendPath("estimates").appendPath("time")
-                .appendQueryParameter("server_token", "vHClWnn8Gjr1xijXhDHab2qCFuQo5TCuXe14CdAC")
-                .appendQueryParameter("start_latitude", String.valueOf(cur_lat))
-                .appendQueryParameter("start_longitude", String.valueOf(cur_long));
+        builder.scheme("http").authority("car2go.com")
+                .appendPath("api").appendPath("v2.1").appendPath("vehicles")
+                .appendQueryParameter("oauth_consumer_key", "Guber")
+                .appendQueryParameter("loc", "austin")
+                .appendQueryParameter("format", "json");
         String queryString = builder.build().toString();
 
         HttpClient client = new DefaultHttpClient();
@@ -74,24 +74,24 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
         }
 
         JSONObject jsonObject;
-        int time = 0;
+        double nearestCarLat=0, nearestCarLng=0;
         try {
 
             jsonObject = new JSONObject(stringBuilder.toString());
-            JSONArray prices = (JSONArray) jsonObject.get("times");
+            JSONArray cars = (JSONArray) jsonObject.get("placemarks");
 
-            for(int i =0; i<prices.length(); i++) {
-                if(prices.getJSONObject(i).getString("display_name").equals("uberX")){
-                    time = prices.getJSONObject(i).getInt("estimate");
-                    break;
-                }
+            for(int i =0; i<cars.length(); i++) {
+                Log.d("Car location", cars.getJSONObject(i).getJSONArray("coordinates").get(0).toString());
+                Double carLat = Double.parseDouble(cars.getJSONObject(i).getJSONArray("coordinates").get(0).toString());
+                Double carLng = Double.parseDouble(cars.getJSONObject(i).getJSONArray("coordinates").get(1).toString());
+
+                //calculate distance, get closest car's coordinates
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("UberX Time: ", Integer.toString(time));
-        return new LatLng(1.2, 1.2);
+        return new LatLng(nearestCarLat, nearestCarLng);
     }
 
 

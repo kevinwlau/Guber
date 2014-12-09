@@ -10,11 +10,18 @@ public class Car2Go extends Transport {
 
     Car2Go(LatLng start, LatLng dest){
         super(start,dest);
-
+        //fetch location of closest car
+        Car2GoFetchCarTask nearestCar = new Car2GoFetchCarTask(this);
+        nearestCar.execute();
+        //get walking time to car
+        //
     }
 
     public void setLocation(LatLng location){
         this.location = location;
+    }
+    public LatLng getLocation() {
+        return location;
     }
 
 }

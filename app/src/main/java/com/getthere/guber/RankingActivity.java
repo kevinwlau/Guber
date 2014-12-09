@@ -110,6 +110,7 @@ public class RankingActivity extends ActionBarActivity {
             mForecastAdapter.add(new Uber(start, dest));
             mForecastAdapter.add(new Transit(start, dest));
             mForecastAdapter.add(new Walk(start, dest));
+            mForecastAdapter.add(new Car2Go(start, dest));
         }
 
          @Override
