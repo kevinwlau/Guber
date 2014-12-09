@@ -3,7 +3,6 @@ package com.getthere.guber;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -33,8 +32,8 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
 
     @Override
     protected LatLng doInBackground(Double... params) {
-        double cur_lat = car2Go.getStart().latitude;
-        double cur_long = car2Go.getStart().longitude;
+        double curLat = car2Go.getStart().latitude;
+        double curLng = car2Go.getStart().longitude;
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http").authority("car2go.com")
@@ -75,26 +74,50 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
 
         JSONObject jsonObject;
         double nearestCarLat=0, nearestCarLng=0;
+        String result = null;
         try {
 
             jsonObject = new JSONObject(stringBuilder.toString());
             JSONArray cars = (JSONArray) jsonObject.get("placemarks");
 
-            for(int i =0; i<cars.length(); i++) {
-                Log.d("Car location", cars.getJSONObject(i).getJSONArray("coordinates").get(0).toString());
-                Double carLat = Double.parseDouble(cars.getJSONObject(i).getJSONArray("coordinates").get(0).toString());
-                Double carLng = Double.parseDouble(cars.getJSONObject(i).getJSONArray("coordinates").get(1).toString());
+            final double R = Double.MAX_VALUE; //Radius of earth in km
+            double closest = R;
+            Double curLatRad = Math.toRadians(curLat);
 
-                //calculate distance, get closest car's coordinates
+            for(int i =0; i<cars.length(); i++) {
+                //parse car coordinates
+                JSONObject car = cars.getJSONObject(i);
+                Double carLat = Double.parseDouble(car.getJSONArray("coordinates").get(1).toString());
+                Double carLng = Double.parseDouble(car.getJSONArray("coordinates").get(0).toString());
+
+                //convert coordinates to Radians for haversine formula
+                Double carLatRad = Math.toRadians(carLat);
+                Double latDiff = Math.toRadians(carLat - curLat);
+                Double lngDiff = Math.toRadians(carLng - curLng);
+
+                //Haversine formula to find distance between two coordinates
+                Double a = Math.pow(Math.sin(latDiff/2.0), 2) + Math.cos(carLatRad) * Math.cos(curLatRad) * Math.pow(Math.sin(lngDiff/2.0), 2);
+                Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                Double distance = R*c;
+
+                //Get closest car and save it
+                if (distance < closest) {
+                    closest = distance;
+                    //save the car
+                    result = car.toString();
+                    nearestCarLat = carLat;
+                    nearestCarLng = carLng;
+//                    Log.d("car:", result.toString());
+//                    Log.d("distance: ", distance.toString());
+                }
             }
+            Log.d("Closest car:", result.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return new LatLng(nearestCarLat, nearestCarLng);
     }
-
-
 
     @Override
     protected void onPostExecute(LatLng location){
