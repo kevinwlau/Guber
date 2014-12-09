@@ -13,7 +13,4 @@ public class Transit extends Transport{
         timeTask.execute("transit");
     }
 
-    public int getDuration(){
-        return duration;
-    }
 }

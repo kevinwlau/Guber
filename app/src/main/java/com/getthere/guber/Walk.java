@@ -17,5 +17,4 @@ public class Walk extends Transport {
 
     public String getCost() { return "0"; }
 
-    public int getDuration() { return duration; }
 }

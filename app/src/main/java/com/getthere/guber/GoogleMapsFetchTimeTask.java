@@ -35,10 +35,10 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer> {
     @Override
     protected Integer doInBackground(String... params) {
         String mode = params[0];
-        double cur_lat = transport.start.latitude;
-        double cur_long = transport.start.longitude;
-        double dest_lat = transport.dest.latitude;
-        double dest_long = transport.dest.longitude;
+        double cur_lat = transport.getStart().latitude;
+        double cur_long = transport.getStart().longitude;
+        double dest_lat = transport.getDest().latitude;
+        double dest_long = transport.getDest().longitude;
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https").authority("maps.googleapis.com")
@@ -93,5 +93,5 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer duration) { transport.duration = duration; }
+    protected void onPostExecute(Integer duration) { transport.setDuration(duration); }
 }

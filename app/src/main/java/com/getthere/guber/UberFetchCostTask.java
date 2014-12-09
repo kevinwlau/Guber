@@ -31,10 +31,10 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
 
     @Override
     protected String doInBackground(Double... params) {
-        double cur_lat = uber.start.latitude;
-        double cur_long = uber.start.longitude;
-        double dest_lat = uber.dest.latitude;
-        double dest_long = uber.dest.longitude;
+        double cur_lat = uber.getStart().latitude;
+        double cur_long = uber.getStart().longitude;
+        double dest_lat = uber.getDest().latitude;
+        double dest_long = uber.getDest().longitude;
 
 
         Uri.Builder builder = new Uri.Builder();
@@ -102,7 +102,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
     protected void onPostExecute(String cost){
 
         // cost might contain '$' sign
-        uber.cost = cost;
+        uber.setCost(cost);
     }
 
 }

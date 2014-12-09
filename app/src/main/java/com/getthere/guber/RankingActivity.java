@@ -138,7 +138,7 @@ public class RankingActivity extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     Transport transport = mForecastAdapter.getItem(position);
                     Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,
-                            transport.cost + " " + Integer.toString(transport.duration));
+                            transport.getCost() + " " + Integer.toString(transport.getDuration()));
                     startActivity(intent);
                 }
             });

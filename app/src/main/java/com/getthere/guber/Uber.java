@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Uber extends Transport {
 
-    int timeToArrive;
+    private int timeToArrive;
 
     Uber(LatLng start, LatLng dest){
         super(start, dest);
@@ -18,12 +18,14 @@ public class Uber extends Transport {
         driveTimeTask.execute("driving");
     }
 
-    public String getCost() {
-        return cost;
-    }
-
     public int getDuration() {
-        return duration + timeToArrive;
+        return this.getDuration() + timeToArrive;
+    }
+    public int getTimeToArrive() {
+        return timeToArrive;
+    }
+    public void setTimeToArrive(int timeToArrive) {
+        this.timeToArrive = timeToArrive;
     }
 
 }

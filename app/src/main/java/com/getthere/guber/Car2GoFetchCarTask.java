@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,18 +23,18 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
+public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
 
-    private Uber uber;
+    private Car2Go car2Go;
 
-    public UberFetchTimeTask(Uber uber){
-        this.uber = uber;
+    public Car2GoFetchCarTask(Car2Go car){
+        this.car2Go = car;
     }
 
     @Override
-    protected Integer doInBackground(Double... params) {
-        double cur_lat = uber.getStart().latitude;
-        double cur_long = uber.getStart().longitude;
+    protected LatLng doInBackground(Double... params) {
+        double cur_lat = car2Go.getStart().latitude;
+        double cur_long = car2Go.getStart().longitude;
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https").authority("api.uber.com")
@@ -89,14 +91,14 @@ public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
             e.printStackTrace();
         }
         Log.d("UberX Time: ", Integer.toString(time));
-        return new Integer(time);
+        return new LatLng(1.2, 1.2);
     }
 
 
 
     @Override
-    protected void onPostExecute(Integer time){
-        uber.setTimeToArrive(time);
+    protected void onPostExecute(LatLng location){
+        car2Go.setLocation(location);
     }
 
 }
