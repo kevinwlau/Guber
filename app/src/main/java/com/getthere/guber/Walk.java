@@ -11,8 +11,8 @@ public class Walk extends Transport {
 
     Walk(LatLng start, LatLng dest){
         super(start, dest);
-        WalkDurationAPITask timeTask = new WalkDurationAPITask(this);
-        timeTask.execute();
+        GoogleMapsFetchTimeTask timeTask = new GoogleMapsFetchTimeTask(this);
+        timeTask.execute("walking");
     }
 
     public String getCost() { return "0"; }

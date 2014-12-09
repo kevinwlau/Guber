@@ -26,26 +26,28 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Created by Aznerik on 12/8/2014.
  */
-public class DriveDurationAPITask extends AsyncTask<LatLng, Void, Integer> {
+public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer> {
 
-    private ArrayAdapter<String> mForecastAdapter;
+    private Transport transport;
 
-    public DriveDurationAPITask(ArrayAdapter<String> mForecastAdapter) { this.mForecastAdapter = mForecastAdapter; }
+    public GoogleMapsFetchTimeTask(Transport transport) { this.transport = transport; }
 
     @Override
-    protected Integer doInBackground(LatLng... params) {
-        double cur_lat = params[0].latitude;
-        double cur_long = params[0].longitude;
-        double dest_lat = params[1].latitude;
-        double dest_long = params[1].longitude;
+    protected Integer doInBackground(String... params) {
+        String mode = params[0];
+        double cur_lat = transport.start.latitude;
+        double cur_long = transport.start.longitude;
+        double dest_lat = transport.dest.latitude;
+        double dest_long = transport.dest.longitude;
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https").authority("maps.googleapis.com")
-                .appendPath("maps").appendPath("api").appendPath("directions")
-                .appendQueryParameter("origin", String.valueOf(cur_lat) + String.valueOf(cur_long))
-                .appendQueryParameter("destination", String.valueOf(dest_lat) + String.valueOf(dest_long))
-                .appendQueryParameter("key", "AIzaSyDJO0LxGFsIRqkf4_MiI0aTsvW5PT5s49k")
-                .appendQueryParameter("mode", "driving");
+                .appendPath("maps").appendPath("api").appendPath("directions").appendPath("json")
+                .appendQueryParameter("departure_time","now")
+                .appendQueryParameter("origin", String.valueOf(cur_lat) + "," + String.valueOf(cur_long))
+                .appendQueryParameter("destination", String.valueOf(dest_lat) +","+ String.valueOf(dest_long))
+                .appendQueryParameter("key", "AIzaSyD_5pG8APkJK0iCVRIfAlwLosqx4ZOlfXg")
+                .appendQueryParameter("mode", mode);
         String queryString = builder.build().toString();
 
         HttpClient client = new DefaultHttpClient();
@@ -77,7 +79,7 @@ public class DriveDurationAPITask extends AsyncTask<LatLng, Void, Integer> {
             e.printStackTrace();
         }
 
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject;
         Integer duration = new Integer(0);
         try {
             jsonObject = new JSONObject(stringBuilder.toString());
@@ -86,10 +88,10 @@ public class DriveDurationAPITask extends AsyncTask<LatLng, Void, Integer> {
         } catch( JSONException e) {
             e.printStackTrace();
         }
-        Log.d("Drive", duration.toString());
+        Log.d(mode+ " Time: ", duration.toString());
         return duration;
     }
 
     @Override
-    protected void onPostExecute(Integer duration) { mForecastAdapter.add(duration.toString()); }
+    protected void onPostExecute(Integer duration) { transport.duration = duration; }
 }

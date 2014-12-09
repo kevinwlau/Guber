@@ -71,16 +71,15 @@ public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
             e.printStackTrace();
         }
 
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject;
         int time = 0;
         try {
-            jsonObject = new JSONObject(stringBuilder.toString());
 
             jsonObject = new JSONObject(stringBuilder.toString());
             JSONArray prices = (JSONArray) jsonObject.get("times");
 
             for(int i =0; i<prices.length(); i++) {
-                if(prices.getJSONObject(i).getString("display_name")=="uberX"){
+                if(prices.getJSONObject(i).getString("display_name").equals("uberX")){
                     time = prices.getJSONObject(i).getInt("estimate");
                     break;
                 }
@@ -97,7 +96,7 @@ public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
 
     @Override
     protected void onPostExecute(Integer time){
-        uber.duration = time;
+        uber.timeToArrive = time;
     }
 
 }

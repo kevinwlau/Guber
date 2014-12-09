@@ -98,7 +98,14 @@ public class RankingActivity extends ActionBarActivity {
         public void updateRanking(){
             LatLng start = new LatLng(30.283336, -97.743954);
             LatLng dest = new LatLng(30.260510, -97.751083);
+            mForecastAdapter = new ArrayAdapter<Transport>(
+                    getActivity(), // The current context (this activity)
+                    R.layout.list_item_forecast, // The name of the layout ID.
+                    R.id.list_item_forecast_textview, // The ID of the textview to populate.
+                    new ArrayList<Transport>());
             mForecastAdapter.add(new Uber(start, dest));
+            mForecastAdapter.add(new Transit(start, dest));
+            mForecastAdapter.add(new Walk(start, dest));
         }
 
          @Override
@@ -126,7 +133,8 @@ public class RankingActivity extends ActionBarActivity {
 
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     Transport transport = mForecastAdapter.getItem(position);
-                    Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, transport.cost);
+                    Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,
+                            transport.cost + " " + Integer.toString(transport.duration));
                     startActivity(intent);
                 }
             });

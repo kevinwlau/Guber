@@ -76,14 +76,14 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
             e.printStackTrace();
         }
 
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject;
         String cost = new String();
         try {
+            Log.d("String Uber: ",stringBuilder.toString());
             jsonObject = new JSONObject(stringBuilder.toString());
             JSONArray prices = (JSONArray) jsonObject.get("prices");
-
             for(int i =0; i<prices.length(); i++) {
-                if(prices.getJSONObject(i).getString("display_name")=="uberX"){
+                if(prices.getJSONObject(i).getString("display_name").equals("uberX")){
                     cost = prices.getJSONObject(i).getString("estimate");
                     break;
                 }

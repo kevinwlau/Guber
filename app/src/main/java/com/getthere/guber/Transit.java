@@ -9,9 +9,11 @@ public class Transit extends Transport{
 
     Transit(LatLng start, LatLng dest){
         super(start,dest);
-        TransitFetchTimeTask timeTask = new TransitFetchTimeTask(this);
-        timeTask.execute();
+        GoogleMapsFetchTimeTask timeTask = new GoogleMapsFetchTimeTask(this);
+        timeTask.execute("transit");
     }
 
-    public int getDuration(){ return duration; }
+    public int getDuration(){
+        return duration;
+    }
 }
