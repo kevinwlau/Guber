@@ -96,13 +96,17 @@ public class RankingActivity extends ActionBarActivity {
         }
 
         public void updateRanking(){
-            LatLng start = new LatLng(30.283336, -97.743954);
-            LatLng dest = new LatLng(30.260510, -97.751083);
-            mForecastAdapter = new ArrayAdapter<Transport>(
-                    getActivity(), // The current context (this activity)
-                    R.layout.list_item_forecast, // The name of the layout ID.
-                    R.id.list_item_forecast_textview, // The ID of the textview to populate.
-                    new ArrayList<Transport>());
+            Intent intent = getActivity().getIntent();
+            Bundle bundle = intent.getParcelableExtra("bundle");
+            LatLng start = bundle.getParcelable("from_position");
+            LatLng dest = bundle.getParcelable("to_position");
+//            LatLng start = new LatLng(30.283336, -97.743954);
+//            LatLng dest = new LatLng(30.260510, -97.751083);
+//            mForecastAdapter = new ArrayAdapter<Transport>(
+//                    getActivity(), // The current context (this activity)
+//                    R.layout.list_item_forecast, // The name of the layout ID.
+//                    R.id.list_item_forecast_textview, // The ID of the textview to populate.
+//                    new ArrayList<Transport>());
             mForecastAdapter.add(new Uber(start, dest));
             mForecastAdapter.add(new Transit(start, dest));
             mForecastAdapter.add(new Walk(start, dest));
