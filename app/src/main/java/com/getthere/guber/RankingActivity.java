@@ -87,6 +87,8 @@ public class RankingActivity extends ActionBarActivity {
 
     public static class ForecastFragment extends Fragment {
 
+        private final String LOG_TAG = RankingActivity.class.getSimpleName();
+
         public ArrayAdapter<Transport> mForecastAdapter;
 
         @Override
@@ -100,6 +102,9 @@ public class RankingActivity extends ActionBarActivity {
             Bundle bundle = intent.getParcelableExtra("bundle");
             LatLng start = bundle.getParcelable("from_position");
             LatLng dest = bundle.getParcelable("to_position");
+            Log.v(LOG_TAG, "Start coordinates are: " + start.latitude + start.longitude);
+            Log.v(LOG_TAG, "Dest coordinates are: " + dest.latitude + dest.longitude);
+
 //            LatLng start = new LatLng(30.283336, -97.743954);
 //            LatLng dest = new LatLng(30.260510, -97.751083);
 //            mForecastAdapter = new ArrayAdapter<Transport>(
@@ -138,8 +143,7 @@ public class RankingActivity extends ActionBarActivity {
 
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     Transport transport = mForecastAdapter.getItem(position);
-                    Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,
-                            transport.getCost() + " " + Integer.toString(transport.getDuration()));
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
                     startActivity(intent);
                 }
             });
