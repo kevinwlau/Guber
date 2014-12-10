@@ -97,6 +97,11 @@ public class RankingActivity extends ActionBarActivity {
             updateRanking();
         }
 
+        @Override
+        public void onResume(){
+
+        }
+
         public void updateRanking(){
             Intent intent = getActivity().getIntent();
             Bundle bundle = intent.getParcelableExtra("bundle");

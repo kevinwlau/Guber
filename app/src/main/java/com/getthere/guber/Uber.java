@@ -9,7 +9,7 @@ public class Uber extends Transport {
     private int timeToArrive;
 
     Uber(LatLng start, LatLng dest){
-        super(start, dest);
+        super(start, dest, "Uber");
         UberFetchCostTask costTask = new UberFetchCostTask(this);
         UberFetchTimeTask timeTask = new UberFetchTimeTask(this);
         GoogleMapsFetchTimeTask driveTimeTask = new GoogleMapsFetchTimeTask(this);

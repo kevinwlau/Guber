@@ -52,7 +52,7 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
             String formattedURI = URLEncoder.encode(queryString, "UTF8");
             URI query = new URI(queryString);
             request.setURI(query);
-            Log.d("query", formattedURI);
+//            Log.d("query", formattedURI);
             response = client.execute(request);
 
             HttpEntity entity = response.getEntity();
@@ -111,7 +111,7 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
 //                    Log.d("distance: ", distance.toString());
                 }
             }
-            Log.d("Closest car:", result.toString());
+//            Log.d("Closest car:", result.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -121,7 +121,9 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
 
     @Override
     protected void onPostExecute(LatLng location){
-        car2Go.setLocation(location);
+        car2Go.setCarLocation(location);
+        car2Go.setDriveSegment(new Drive(car2Go.getCarLocation(), car2Go.getDest()));
+        car2Go.setWalkSegment(new Walk(car2Go.getStart(), car2Go.getCarLocation()));
     }
 
 }

@@ -26,14 +26,14 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Created by Aznerik on 12/8/2014.
  */
-public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer> {
+public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer[]> {
 
     private Transport transport;
 
     public GoogleMapsFetchTimeTask(Transport transport) { this.transport = transport; }
 
     @Override
-    protected Integer doInBackground(String... params) {
+    protected Integer[] doInBackground(String... params) {
         String mode = params[0];
         double cur_lat = transport.getStart().latitude;
         double cur_long = transport.getStart().longitude;
@@ -59,7 +59,7 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer> {
             String formattedURI = URLEncoder.encode(queryString, "UTF8");
             URI query = new URI(queryString);
             request.setURI(query);
-            Log.d("query", formattedURI);
+//            Log.d("query", formattedURI);
             response = client.execute(request);
 
             HttpEntity entity = response.getEntity();
@@ -81,17 +81,26 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer> {
 
         JSONObject jsonObject;
         Integer duration = new Integer(0);
+        Integer distance = new Integer(0);
         try {
             jsonObject = new JSONObject(stringBuilder.toString());
             duration  = ((JSONArray) jsonObject.get("routes")).getJSONObject(0).getJSONArray("legs")
                     .getJSONObject(0).getJSONObject("duration").getInt("value");
+            distance = ((JSONArray) jsonObject.get("routes")).getJSONObject(0).getJSONArray("legs")
+                    .getJSONObject(0).getJSONObject("distance").getInt("value");
         } catch( JSONException e) {
             e.printStackTrace();
         }
-        Log.d(mode+ " Time: ", duration.toString());
-        return duration;
+        Log.d(transport.getType()+ " "+ mode + " Time: ", duration.toString());
+        Log.d(transport.getType()+ " "+ mode + " Distance: ", distance.toString());
+
+        Integer[] result = {duration, distance};
+        return result;
     }
 
     @Override
-    protected void onPostExecute(Integer duration) { transport.setDuration(duration); }
+    protected void onPostExecute(Integer[] result) {
+        transport.setDuration(result[0]);
+        transport.setDistance(result[1]);
+    }
 }

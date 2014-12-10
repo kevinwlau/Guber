@@ -8,14 +8,17 @@ import com.google.android.gms.maps.model.LatLng;
  */
 abstract class Transport {
 
+    private String type;
     private String cost;
+    private int distance;
     private int duration;
     private LatLng start;
     private LatLng dest;
 
-    Transport(LatLng start, LatLng dest){
+    Transport(LatLng start, LatLng dest, String type){
         this.start = start;
         this.dest = dest;
+        this.type = type;
     }
 
     public String getCost() {
@@ -28,6 +31,14 @@ abstract class Transport {
 
     public int getDuration() {
         return duration;
+    }
+
+    public String getType(){
+        return type;
+    }
+
+    public void setType(String type){
+        this.type = type;
     }
 
     public void setDuration(int duration) {
@@ -49,4 +60,14 @@ abstract class Transport {
     public void setDest(LatLng dest) {
         this.dest = dest;
     }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+
 }

@@ -7,10 +7,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Walk extends Transport {
 
-    private String timeToArrive;
-
     Walk(LatLng start, LatLng dest){
-        super(start, dest);
+        super(start, dest, "Walking");
         GoogleMapsFetchTimeTask timeTask = new GoogleMapsFetchTimeTask(this);
         timeTask.execute("walking");
     }

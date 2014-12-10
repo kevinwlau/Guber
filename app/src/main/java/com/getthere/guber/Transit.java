@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Transit extends Transport{
 
     Transit(LatLng start, LatLng dest){
-        super(start,dest);
+        super(start,dest, "Public Transit");
         GoogleMapsFetchTimeTask timeTask = new GoogleMapsFetchTimeTask(this);
         timeTask.execute("transit");
     }

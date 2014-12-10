@@ -6,22 +6,70 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Car2Go extends Transport {
 
-    private LatLng location;
+    private final double minuteRate = 0.41;
+    private final double hourRate = 14.99;
+
+    private LatLng carLocation;
+    private Transport walkSegment;
+    private Transport driveSegment;
 
     Car2Go(LatLng start, LatLng dest){
-        super(start,dest);
+        super(start, dest, "Car2Go");
         //fetch location of closest car
         Car2GoFetchCarTask nearestCar = new Car2GoFetchCarTask(this);
         nearestCar.execute();
-        //get walking time to car
-        //
     }
 
-    public void setLocation(LatLng location){
-        this.location = location;
+    public void setCarLocation(LatLng location){
+        this.carLocation = location;
     }
-    public LatLng getLocation() {
-        return location;
+    public LatLng getCarLocation() {
+        return carLocation;
+    }
+
+    @Override
+    public int getDuration(){
+        int duration = 0;
+
+        if(walkSegment!=null)
+            duration += walkSegment.getDuration();
+        if(driveSegment!=null)
+            duration += driveSegment.getDuration();
+        return duration;
+    }
+
+    @Override
+    public String getCost(){
+
+        int duration = 0;
+        double cost = 0;
+        if(walkSegment!=null)
+            duration += walkSegment.getDuration();
+        if(driveSegment!=null)
+            duration += driveSegment.getDuration();
+        super.setDuration(duration);
+
+        int remainingMinutes = (duration%3600)/60;
+        int hours = duration/3600;
+        cost += Math.min(remainingMinutes*minuteRate, hourRate);
+        cost += hours*14.99;
+        return "$"+Double.toString(cost);
+    }
+
+    public Transport getDriveSegment() {
+        return driveSegment;
+    }
+
+    public void setDriveSegment(Transport driveSegment) {
+        this.driveSegment = driveSegment;
+    }
+
+    public Transport getWalkSegment() {
+        return walkSegment;
+    }
+
+    public void setWalkSegment(Transport walkSegment) {
+        this.walkSegment = walkSegment;
     }
 
 }
