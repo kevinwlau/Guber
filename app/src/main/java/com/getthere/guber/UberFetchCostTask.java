@@ -21,7 +21,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
+public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
 
     private Uber uber;
 
@@ -30,7 +30,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Double... params) {
+    protected String[] doInBackground(Double... params) {
         double cur_lat = uber.getStart().latitude;
         double cur_long = uber.getStart().longitude;
         double dest_lat = uber.getDest().latitude;
@@ -78,6 +78,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
 
         JSONObject jsonObject;
         String cost = new String();
+        Double surge = 1.0;
         try {
             Log.d("String Uber: ",stringBuilder.toString());
             jsonObject = new JSONObject(stringBuilder.toString());
@@ -85,6 +86,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
             for(int i =0; i<prices.length(); i++) {
                 if(prices.getJSONObject(i).getString("display_name").equals("uberX")){
                     cost = prices.getJSONObject(i).getString("estimate");
+                    surge = prices.getJSONObject(i).getDouble("surge_multiplier");
                     break;
                 }
             }
@@ -93,16 +95,16 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String> {
             e.printStackTrace();
         }
         Log.d("UberX Cost: ", cost);
-        return cost;
+        String[] result = {cost, Double.toString(surge)};
+        return result;
     }
 
 
 
     @Override
-    protected void onPostExecute(String cost){
-
-        // cost might contain '$' sign
-        uber.setCost(cost);
+    protected void onPostExecute(String[] result){
+        uber.setCost(result[0]);
+        uber.setSurge(result[1]);
     }
 
 }

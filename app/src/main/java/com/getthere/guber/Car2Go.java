@@ -56,6 +56,18 @@ public class Car2Go extends Transport {
         return "$"+Double.toString(cost);
     }
 
+    @Override
+    public int getDistance(){
+        int distance = 0;
+
+        if(walkSegment!=null)
+            distance += walkSegment.getDistance();
+        if(driveSegment!=null)
+            distance += driveSegment.getDistance();
+
+        return distance;
+    }
+
     public Transport getDriveSegment() {
         return driveSegment;
     }

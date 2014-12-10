@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Uber extends Transport {
 
     private int timeToArrive;
+    private String surge;
 
     Uber(LatLng start, LatLng dest){
         super(start, dest, "Uber");
@@ -26,6 +27,14 @@ public class Uber extends Transport {
     }
     public void setTimeToArrive(int timeToArrive) {
         this.timeToArrive = timeToArrive;
+    }
+
+    public String getSurge() {
+        return surge;
+    }
+
+    public void setSurge(String surge) {
+        this.surge = surge;
     }
 
 }
