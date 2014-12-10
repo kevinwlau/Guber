@@ -1,6 +1,8 @@
 package com.getthere.guber;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -66,6 +69,32 @@ public class DetailActivity extends ActionBarActivity {
                         .setText(forecastStr);
             }
 
+            Button searchButton= (Button) rootView.findViewById(R.id.launch_button);
+
+            searchButton.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    String start_location = "Austin";
+                    String end_location = "Dallas";
+                    String mode = "r"; // r = transit, b = biking, w = walking
+                    Intent mapsIntent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("http://maps.google.com/maps?saddr=" + start_location + "&daddr=" + end_location + "&dirflg=" + mode));
+                    startActivity(mapsIntent);
+
+//                    Intent uberIntent = new Intent(android.content.Intent.ACTION_VIEW,
+//                            Uri.parse("uber://?action=setPickup&product_id=91901472-f30d-4614-8ba7-9fcc937cebf5&pickup[latitude]=-33.9226277&pickup[longitude]=18.4232182&dropoff[latitude]=-33.972282&dropoff[longitude]=18.601956"));
+//                    startActivity(uberIntent);
+
+                    String start_latitude = "";
+                    String start_longitude = "";
+                    String end_latitude = "";
+                    String end_longitude = "";
+                    Intent uberIntent = new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse("uber://?action=setPickup&product_id=91901472-f30d-4614-8ba7-9fcc937cebf5&pickup[latitude]=" + start_latitude + "&pickup[longitude]=" + start_longitude + "&dropoff[latitude]=" + end_latitude + "&dropoff[longitude]=" + end_longitude));
+                    startActivity(uberIntent);
+
+                    }
+            });
 
             return rootView;
         }
