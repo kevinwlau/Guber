@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFDAFF7F"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/Image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Say this is a bus"
+        android:id="@+id/Transport"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/Image"
+        android:layout_toRightOf="@+id/Image"
+        android:paddingLeft="5dp"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estimated Time: XX:XX\nEstimated Cost:  $X.XX"
+        android:id="@+id/Info"
+        android:layout_toEndOf="@+id/Image"
+        android:layout_toRightOf="@+id/Image"
+        android:paddingLeft="5dp"
+        android:layout_below="@+id/Transport"
+        android:paddingTop="4dp" />
+
+</RelativeLayout >

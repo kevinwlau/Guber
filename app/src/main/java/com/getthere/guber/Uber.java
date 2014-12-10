@@ -26,8 +26,9 @@ public class Uber extends Transport {
         driveTimeTask.execute("driving");
     }
 
+    @Override
     public int getDuration() {
-        return this.getDuration() + timeToArrive;
+        return super.getDuration() + timeToArrive;
     }
     public int getTimeToArrive() {
         return timeToArrive;
