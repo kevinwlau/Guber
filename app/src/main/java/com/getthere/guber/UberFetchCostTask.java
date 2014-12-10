@@ -24,8 +24,10 @@ import java.net.URLEncoder;
 public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
 
     private Uber uber;
+    private ListAdapter adapter;
 
-    public UberFetchCostTask(Uber uber){
+    public UberFetchCostTask(Uber uber, ListAdapter adapter){
+        this.adapter = adapter;
         this.uber = uber;
     }
 
@@ -104,6 +106,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
     protected void onPostExecute(String[] result){
         uber.setCost(result[0]);
         uber.setSurge(result[1]);
+        adapter.notifyDataSetChanged();
     }
 
 }

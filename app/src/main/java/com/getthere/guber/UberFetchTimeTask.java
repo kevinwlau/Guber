@@ -24,10 +24,13 @@ import java.net.URLEncoder;
 public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
 
     private Uber uber;
+    private ListAdapter adapter;
 
-    public UberFetchTimeTask(Uber uber){
+    public UberFetchTimeTask(Uber uber, ListAdapter adapter){
+        this.adapter = adapter;
         this.uber = uber;
     }
+
 
     @Override
     protected Integer doInBackground(Double... params) {
@@ -97,6 +100,7 @@ public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
     @Override
     protected void onPostExecute(Integer time){
         uber.setTimeToArrive(time);
+        adapter.notifyDataSetChanged();
     }
 
 }

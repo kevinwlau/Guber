@@ -25,8 +25,10 @@ import java.net.URLEncoder;
 public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
 
     private Car2Go car2Go;
+    private ListAdapter adapter;
 
-    public Car2GoFetchCarTask(Car2Go car){
+    public Car2GoFetchCarTask(Car2Go car, ListAdapter adapter){
+        this.adapter = adapter;
         this.car2Go = car;
     }
 
@@ -122,8 +124,8 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
     @Override
     protected void onPostExecute(LatLng location){
         car2Go.setCarLocation(location);
-        car2Go.setDriveSegment(new Drive(car2Go.getCarLocation(), car2Go.getDest()));
-        car2Go.setWalkSegment(new Walk(car2Go.getStart(), car2Go.getCarLocation()));
+        car2Go.setDriveSegment(new Drive(car2Go.getCarLocation(), car2Go.getDest(), adapter) );
+        car2Go.setWalkSegment(new Walk(car2Go.getStart(), car2Go.getCarLocation(), adapter) );
     }
 
 }

@@ -10,16 +10,16 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Walk extends Transport {
 
-    Walk(LatLng start, LatLng dest){
+    Walk(LatLng start, LatLng dest, ListAdapter adapter){
         super(start, dest, "Walking");
         super.setIntent(new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?saddr=" + start.latitude + ","
                         + start.longitude + "&daddr=" + dest.latitude + "," + dest.longitude
                         + "&dirflg=walking")));
-        GoogleMapsFetchTimeTask timeTask = new GoogleMapsFetchTimeTask(this);
+        GoogleMapsFetchTimeTask timeTask = new GoogleMapsFetchTimeTask(this, adapter);
         timeTask.execute("walking");
     }
 
-    public String getCost() { return "0"; }
+    public String getCost() { return "$0"; }
 
 }

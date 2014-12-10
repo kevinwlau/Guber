@@ -29,8 +29,12 @@ import com.google.android.gms.maps.model.LatLng;
 public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer[]> {
 
     private Transport transport;
+    private ListAdapter adapter;
 
-    public GoogleMapsFetchTimeTask(Transport transport) { this.transport = transport; }
+    public GoogleMapsFetchTimeTask(Transport transport, ListAdapter adapter) {
+        this.transport = transport;
+        this.adapter = adapter;
+    }
 
     @Override
     protected Integer[] doInBackground(String... params) {
@@ -102,5 +106,6 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer[]> 
     protected void onPostExecute(Integer[] result) {
         transport.setDuration(result[0]);
         transport.setDistance(result[1]);
+        adapter.notifyDataSetChanged();
     }
 }

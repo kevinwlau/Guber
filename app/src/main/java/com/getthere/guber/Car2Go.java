@@ -18,7 +18,7 @@ public class Car2Go extends Transport {
     private Transport walkSegment;
     private Transport driveSegment;
 
-    Car2Go(LatLng start, LatLng dest, Context context){
+    Car2Go(LatLng start, LatLng dest, Context context, ListAdapter adapter){
         super(start, dest, "Car2Go");
 
 
@@ -36,7 +36,7 @@ public class Car2Go extends Transport {
         }
 
         //fetch location of closest car
-        Car2GoFetchCarTask nearestCar = new Car2GoFetchCarTask(this);
+        Car2GoFetchCarTask nearestCar = new Car2GoFetchCarTask(this, adapter);
         nearestCar.execute();
     }
 
@@ -73,7 +73,7 @@ public class Car2Go extends Transport {
         int hours = duration/3600;
         cost += Math.min(remainingMinutes*minuteRate, hourRate);
         cost += hours*14.99;
-        return "$"+Double.toString(cost);
+        return String.format("$%.2f",cost);
     }
 
     @Override
