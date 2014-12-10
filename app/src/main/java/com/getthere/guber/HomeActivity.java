@@ -1,6 +1,10 @@
 package com.getthere.guber;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.nfc.Tag;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -19,11 +23,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.location.LocationListener;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity{
 
 
 
@@ -48,6 +53,7 @@ public class HomeActivity extends ActionBarActivity {
                     .commit();
         }
     }
+
 
 
     @Override
@@ -69,17 +75,23 @@ public class HomeActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class RouteFragment extends Fragment {
+    public static class RouteFragment extends Fragment{
+        protected LocationManager locationManager;
+
+
 
         private final String LOG_TAG = HomeActivity.class.getSimpleName();
-
 
         public RouteFragment() {
         }
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+                                 final Bundle savedInstanceState) {
+//            CurrentLocation location = new CurrentLocation();
+//            final Location newLocation = location.getLastKnownLocation();
+
             final View inflateView = inflater.inflate(R.layout.fragment_home, container, false);
 
             Button searchButton= (Button) inflateView.findViewById(R.id.search_button);
@@ -87,9 +99,12 @@ public class HomeActivity extends ActionBarActivity {
             searchButton.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View view){
+
+
+//                    Log.v(LOG_TAG, "Location using current is: " + newLocation.getLatitude() + " " + newLocation.getLongitude());
                     EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
                     EditText dest_loc = (EditText) inflateView.findViewById(R.id.dest_loc);
-
+//                   
                     Geocode getLatLng = new Geocode();
                     Log.v(LOG_TAG, "dest loc is: " + dest_loc.getText().toString());
                     getLatLng.execute(start_loc.getText().toString());
