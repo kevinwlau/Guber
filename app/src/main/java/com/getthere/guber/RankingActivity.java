@@ -88,6 +88,7 @@ public class RankingActivity extends ActionBarActivity {
     public static class ForecastFragment extends Fragment {
 
         private final String LOG_TAG = RankingActivity.class.getSimpleName();
+        public LatLng start, dest;
 
         public ArrayAdapter<Transport> mForecastAdapter;
 
@@ -99,7 +100,7 @@ public class RankingActivity extends ActionBarActivity {
 
         @Override
         public void onResume(){
-
+             super.onResume();
         }
 
         public void updateRanking(){

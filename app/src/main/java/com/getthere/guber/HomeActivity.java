@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -96,6 +98,7 @@ public class HomeActivity extends ActionBarActivity{
 
             Button searchButton= (Button) inflateView.findViewById(R.id.search_button);
 
+
             searchButton.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View view){
@@ -104,7 +107,20 @@ public class HomeActivity extends ActionBarActivity{
 //                    Log.v(LOG_TAG, "Location using current is: " + newLocation.getLatitude() + " " + newLocation.getLongitude());
                     EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
                     EditText dest_loc = (EditText) inflateView.findViewById(R.id.dest_loc);
-//                   
+                    if (start_loc.getText().toString().trim().equalsIgnoreCase("")) {
+                        start_loc.setError("This field can not be blank");
+                        if (dest_loc.getText().toString().trim().equalsIgnoreCase("")) {
+                            dest_loc.setError("This field can not be blank");
+                            return;
+                        }
+                        else
+                            return;
+                       }
+                    if (dest_loc.getText().toString().trim().equalsIgnoreCase("")) {
+                        dest_loc.setError("This field can not be blank");
+                        return;
+                    }
+
                     Geocode getLatLng = new Geocode();
                     Log.v(LOG_TAG, "dest loc is: " + dest_loc.getText().toString());
                     getLatLng.execute(start_loc.getText().toString());
