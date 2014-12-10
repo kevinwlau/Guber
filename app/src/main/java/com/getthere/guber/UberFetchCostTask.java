@@ -95,11 +95,10 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
             e.printStackTrace();
         }
         Log.d("UberX Cost: ", cost);
+        Log.d("Uber Surge: ", Double.toString(surge));
         String[] result = {cost, Double.toString(surge)};
         return result;
     }
-
-
 
     @Override
     protected void onPostExecute(String[] result){

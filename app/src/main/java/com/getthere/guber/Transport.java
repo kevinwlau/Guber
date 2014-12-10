@@ -1,5 +1,7 @@
 package com.getthere.guber;
 
+import android.content.Intent;
+
 import com.google.android.gms.maps.model.LatLng;
 
 
@@ -14,6 +16,7 @@ abstract class Transport {
     private int duration;
     private LatLng start;
     private LatLng dest;
+    private Intent intent;
 
     Transport(LatLng start, LatLng dest, String type){
         this.start = start;
@@ -69,5 +72,12 @@ abstract class Transport {
         this.distance = distance;
     }
 
+    public Intent getIntent() {
+        return intent;
+    }
+
+    public void setIntent(Intent intent) {
+        this.intent = intent;
+    }
 
 }
