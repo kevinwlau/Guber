@@ -1,4 +1,9 @@
 package com.getthere.guber;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -13,8 +18,23 @@ public class Car2Go extends Transport {
     private Transport walkSegment;
     private Transport driveSegment;
 
-    Car2Go(LatLng start, LatLng dest){
+    Car2Go(LatLng start, LatLng dest, Context context){
         super(start, dest, "Car2Go");
+
+
+        //Create and save deep linking Intent
+        Intent intent;
+        PackageManager manager = context.getPackageManager();
+        try {
+            intent = manager.getLaunchIntentForPackage("com.car2go");
+            if (intent == null)
+                throw new PackageManager.NameNotFoundException();
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            super.setIntent(intent);
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d("ERROR: ", "NameNotFoundException");
+        }
+
         //fetch location of closest car
         Car2GoFetchCarTask nearestCar = new Car2GoFetchCarTask(this);
         nearestCar.execute();

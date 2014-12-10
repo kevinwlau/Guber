@@ -121,7 +121,7 @@ public class RankingActivity extends ActionBarActivity {
             mForecastAdapter.add(new Uber(start, dest));
             mForecastAdapter.add(new Transit(start, dest));
             mForecastAdapter.add(new Walk(start, dest));
-            mForecastAdapter.add(new Car2Go(start, dest));
+            mForecastAdapter.add(new Car2Go(start, dest, getActivity()));
         }
 
          @Override
@@ -149,7 +149,10 @@ public class RankingActivity extends ActionBarActivity {
 
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     Transport transport = mForecastAdapter.getItem(position);
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+//                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+
+//                    intent.putExtra("transport", transport);
+                    Intent intent = transport.getIntent();
                     startActivity(intent);
                 }
             });
