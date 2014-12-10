@@ -198,12 +198,14 @@ public class HomeActivity extends ActionBarActivity{
 //                    Log.v(LOG_TAG, "Location using current is: " + newLocation.getLatitude() + " " + newLocation.getLongitude());
                     EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
                     EditText dest_loc = (EditText) inflateView.findViewById(R.id.dest_loc);
-                    if (start_loc.getText().toString().trim().equalsIgnoreCase("")) {
-                        start_loc.setText(lat.toString() + "," + lng.toString());
-                       }
+
                     if (dest_loc.getText().toString().trim().equalsIgnoreCase("")) {
                         dest_loc.setError("This field can not be blank");
                         return;
+                    } else {
+                        if (start_loc.getText().toString().trim().equalsIgnoreCase("")) {
+                            start_loc.setText(lat.toString() + "," + lng.toString());
+                        }
                     }
 
                     Geocode getLatLng = new Geocode();
