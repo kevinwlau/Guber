@@ -21,12 +21,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="98dp" />
 
-    <EditText
+    <AutoCompleteTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
         android:id="@+id/dest_loc"
+        android:dropDownHeight="100dp"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -53,7 +54,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/textView4" />
 
-    <EditText
+    <AutoCompleteTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"

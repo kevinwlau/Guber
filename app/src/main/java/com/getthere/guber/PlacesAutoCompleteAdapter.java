@@ -29,7 +29,7 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
 
-    private static final String API_KEY = "YOUR_API_KEY";
+    private static final String API_KEY = "AIzaSyD_5pG8APkJK0iCVRIfAlwLosqx4ZOlfXg";
 
     public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -75,6 +75,8 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
     }
 
     private ArrayList<String> autocomplete(String input) {
+        Log.v(LOG_TAG, "At least IT ENTERS HERE");
+
         ArrayList<String> resultList = null;
 
         HttpURLConnection conn = null;
@@ -82,7 +84,7 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
         try {
             StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
             sb.append("?key=" + API_KEY);
-            sb.append("&components=country:uk");
+            sb.append("&components=country:us");
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());
