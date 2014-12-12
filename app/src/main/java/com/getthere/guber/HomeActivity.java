@@ -1,5 +1,6 @@
 package com.getthere.guber;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +22,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -34,6 +40,7 @@ public class HomeActivity extends ActionBarActivity{
     private LocationListener locationListener;
     private Location lastKnownLocation;
     private String bestProvider;
+    private final String LOG_TAG = HomeActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +49,15 @@ public class HomeActivity extends ActionBarActivity{
 
         location_setup();
 
-        location_init();
+// Removed to debug
+//        location_init();
+
 
         Bundle bundle = new Bundle();
-        bundle.putDouble("Latitude", lastKnownLocation.getLatitude());
-        bundle.putDouble("Longitude", lastKnownLocation.getLongitude());
+
+        //Defaulted to dummy values
+        bundle.putDouble("Latitude", 30.0);
+        bundle.putDouble("Longitude", 35.0);
 
         RouteFragment fragobj = new RouteFragment();
         fragobj.setArguments(bundle);
@@ -57,6 +68,8 @@ public class HomeActivity extends ActionBarActivity{
                     .commit();
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,17 +178,23 @@ public class HomeActivity extends ActionBarActivity{
 
         lastKnownLocation = locationManager.getLastKnownLocation(bestProvider);
 
-        Log.d("location: ", Double.toString(lastKnownLocation.getLatitude()));
+//        Log.d("location: ", Double.toString(lastKnownLocation.getLatitude()));
 
 
     }
 
-    public static class RouteFragment extends Fragment{
+    public static class RouteFragment extends Fragment implements OnItemClickListener{
         private final String LOG_TAG = HomeActivity.class.getSimpleName();
+        public String start_loc, dest_loc;
 
         public RouteFragment() {
         }
 
+
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            String str = (String) adapterView.getItemAtPosition(position);
+            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
@@ -184,7 +203,17 @@ public class HomeActivity extends ActionBarActivity{
 
             final View inflateView = inflater.inflate(R.layout.fragment_home, container, false);
 
-            EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
+            final AutoCompleteTextView dest_loc = (AutoCompleteTextView) inflateView.findViewById(R.id.dest_loc);
+            final AutoCompleteTextView start_loc = (AutoCompleteTextView) inflateView.findViewById(R.id.start_loc);
+
+            Log.v(LOG_TAG, "checking results: " + dest_loc.getLayout());
+            PlacesAutoCompleteAdapter adapter = new PlacesAutoCompleteAdapter(getActivity(), R.layout.list_item);
+            dest_loc.setAdapter(adapter);
+            start_loc.setAdapter(adapter);
+            start_loc.setOnItemClickListener(this);
+            dest_loc.setOnItemClickListener(this);
+
+//            EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
             start_loc.setHint("Current location used if left blank");
 
             Button searchButton= (Button) inflateView.findViewById(R.id.search_button);
@@ -196,8 +225,8 @@ public class HomeActivity extends ActionBarActivity{
 
 
 //                    Log.v(LOG_TAG, "Location using current is: " + newLocation.getLatitude() + " " + newLocation.getLongitude());
-                    EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
-                    EditText dest_loc = (EditText) inflateView.findViewById(R.id.dest_loc);
+//                    EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
+//                    EditText dest_loc = (EditText) inflateView.findViewById(R.id.dest_loc);
 
                     if (dest_loc.getText().toString().trim().equalsIgnoreCase("")) {
                         dest_loc.setError("This field can not be blank");
