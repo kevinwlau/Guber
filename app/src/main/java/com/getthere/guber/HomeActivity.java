@@ -33,7 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.google.android.gms.maps.model.LatLng;
 
 
-public class HomeActivity extends FragmentActivity{
+public class HomeActivity extends ActionBarActivity{
 
     private Criteria criteria;
     private LocationManager locationManager;
@@ -49,10 +49,13 @@ public class HomeActivity extends FragmentActivity{
 
         location_setup();
 
+// Removed to debug
 //        location_init();
 
 
         Bundle bundle = new Bundle();
+
+        //Defaulted to dummy values
         bundle.putDouble("Latitude", 30.0);
         bundle.putDouble("Longitude", 35.0);
 
@@ -175,7 +178,7 @@ public class HomeActivity extends FragmentActivity{
 
         lastKnownLocation = locationManager.getLastKnownLocation(bestProvider);
 
-        Log.d("location: ", Double.toString(lastKnownLocation.getLatitude()));
+//        Log.d("location: ", Double.toString(lastKnownLocation.getLatitude()));
 
 
     }
