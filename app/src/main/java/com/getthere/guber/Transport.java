@@ -27,6 +27,8 @@ abstract class Transport {
         this.dest = dest;
         this.type = type;
         details = new ArrayList<String>();
+        distance = Integer.MAX_VALUE;
+        duration = Integer.MAX_VALUE;
     }
 
     public String getCost() {return cost;}
@@ -98,6 +100,7 @@ abstract class Transport {
 
     public static String formatTime(int duration){
         if(duration<0) return "Unavailable";
+        if(duration==Integer.MAX_VALUE) return "Retrieving...";
         int hours = duration / 3600;
         int minutes = (duration % 3600) / 60;
         int seconds = duration % 60;
@@ -111,6 +114,7 @@ abstract class Transport {
 
     public static String formatDistance(int distance){
         if(distance<0) return "Unavailable";
+        if(distance==Integer.MAX_VALUE) return "Retrieving...";
         double miles = distance/1609.0;
         return String.format("%.2f mi", miles);
     }

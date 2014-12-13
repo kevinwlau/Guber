@@ -11,68 +11,63 @@
     tools:context="com.example.manavm.sunshine.app.DetailActivity$PlaceholderFragment"
     >
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/guber_logo" />
+
     <TextView
-        android:id="@+id/detail_text"
+        android:id="@+id/title_text"
         android:text="Güber"
         android:textSize="50dp"
+        android:layout_below="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp" />
-
-    <com.getthere.guber.ClearableAutoCompleteTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/dest_loc"
-        android:dropDownHeight="100dp"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerHorizontal="true"/>
 
     <TextView
+        android:id="@+id/start_loc_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Location"
-        android:layout_toStartOf="@+id/detail_text"
-        android:layout_below="@+id/detail_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView3" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Location "
-        android:layout_toStartOf="@+id/detail_text"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView4" />
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/title_text" />
 
     <com.getthere.guber.ClearableAutoCompleteTextView
+        android:id="@+id/start_loc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/start_loc"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/start_loc_text"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/dest_loc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Location "
+        android:layout_below="@+id/start_loc"
+        android:layout_marginTop="30dp"/>
+
+    <com.getthere.guber.ClearableAutoCompleteTextView
+        android:id="@+id/dest_loc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:layout_below="@+id/dest_loc_text"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true" />
 
     <Button
+        android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Guber it!"
-        android:id="@+id/search_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="48dp" />
+        android:layout_marginBottom="20dp"/>
 
 </RelativeLayout>
