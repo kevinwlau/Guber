@@ -86,6 +86,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
             Log.d("String Uber: ",stringBuilder.toString());
             jsonObject = new JSONObject(stringBuilder.toString());
             JSONArray prices = (JSONArray) jsonObject.get("prices");
+            if(prices.length()==0) throw new JSONException("Empty price array");
             for(int i =0; i<prices.length(); i++) {
                 if(prices.getJSONObject(i).getString("display_name").equals("uberX")){
                     cost = prices.getJSONObject(i).getString("estimate");

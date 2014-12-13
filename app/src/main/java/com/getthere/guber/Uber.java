@@ -31,6 +31,7 @@ public class Uber extends Transport {
 
     @Override
     public int getDuration() {
+        if(getCost().equals("Unavailable")) return -1;
         int driveTime = super.getDuration();
         if(driveTime<0 || timeToArrive<0) return -1;
         return driveTime + timeToArrive;
