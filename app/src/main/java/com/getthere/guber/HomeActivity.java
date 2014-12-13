@@ -49,18 +49,9 @@ public class HomeActivity extends ActionBarActivity{
 
         location_setup();
 
-// Removed to debug
-//        location_init();
-
-
-        Bundle bundle = new Bundle();
-
-        //Defaulted to dummy values
-        bundle.putDouble("Latitude", 30.0);
-        bundle.putDouble("Longitude", 35.0);
+        location_init();
 
         RouteFragment fragobj = new RouteFragment();
-        fragobj.setArguments(bundle);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -68,8 +59,6 @@ public class HomeActivity extends ActionBarActivity{
                     .commit();
         }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,18 +163,20 @@ public class HomeActivity extends ActionBarActivity{
             }
         });
 
+        location_update();
+    }
+
+    public void location_update(){
         locationManager.requestLocationUpdates(bestProvider, 0, 0, locationListener);
-
         lastKnownLocation = locationManager.getLastKnownLocation(bestProvider);
+    }
 
-//        Log.d("location: ", Double.toString(lastKnownLocation.getLatitude()));
-
-
+    public Location getLocation(){
+        return lastKnownLocation;
     }
 
     public static class RouteFragment extends Fragment implements OnItemClickListener{
         private final String LOG_TAG = HomeActivity.class.getSimpleName();
-        public String start_loc, dest_loc;
 
         public RouteFragment() {
         }
@@ -198,8 +189,6 @@ public class HomeActivity extends ActionBarActivity{
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-            final Double lat = getArguments().getDouble("Latitude");
-            final Double lng = getArguments().getDouble("Longitude");
 
             final View inflateView = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -213,27 +202,22 @@ public class HomeActivity extends ActionBarActivity{
             start_loc.setOnItemClickListener(this);
             dest_loc.setOnItemClickListener(this);
 
-//            EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
-            start_loc.setHint("Current location used if left blank");
+            start_loc.setHint("Current location");
 
             Button searchButton= (Button) inflateView.findViewById(R.id.search_button);
-
 
             searchButton.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View view){
-
-
-//                    Log.v(LOG_TAG, "Location using current is: " + newLocation.getLatitude() + " " + newLocation.getLongitude());
-//                    EditText start_loc = (EditText) inflateView.findViewById(R.id.start_loc);
-//                    EditText dest_loc = (EditText) inflateView.findViewById(R.id.dest_loc);
+                    ((HomeActivity)getActivity()).location_update();
+                    Location start = ((HomeActivity)getActivity()).getLocation();
 
                     if (dest_loc.getText().toString().trim().equalsIgnoreCase("")) {
                         dest_loc.setError("This field can not be blank");
                         return;
                     } else {
                         if (start_loc.getText().toString().trim().equalsIgnoreCase("")) {
-                            start_loc.setText(lat.toString() + "," + lng.toString());
+                            start_loc.setText(start.getLatitude() + "," + start.getLongitude());
                         }
                     }
 
