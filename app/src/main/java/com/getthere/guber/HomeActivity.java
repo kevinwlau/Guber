@@ -192,8 +192,8 @@ public class HomeActivity extends ActionBarActivity{
 
             final View inflateView = inflater.inflate(R.layout.fragment_home, container, false);
 
-            final AutoCompleteTextView dest_loc = (AutoCompleteTextView) inflateView.findViewById(R.id.dest_loc);
-            final AutoCompleteTextView start_loc = (AutoCompleteTextView) inflateView.findViewById(R.id.start_loc);
+            final ClearableAutoCompleteTextView dest_loc = (ClearableAutoCompleteTextView) inflateView.findViewById(R.id.dest_loc);
+            final ClearableAutoCompleteTextView start_loc = (ClearableAutoCompleteTextView) inflateView.findViewById(R.id.start_loc);
 
             Log.v(LOG_TAG, "checking results: " + dest_loc.getLayout());
             PlacesAutoCompleteAdapter adapter = new PlacesAutoCompleteAdapter(getActivity(), R.layout.list_item);

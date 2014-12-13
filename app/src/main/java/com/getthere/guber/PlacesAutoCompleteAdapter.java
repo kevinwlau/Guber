@@ -75,8 +75,6 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
     }
 
     private ArrayList<String> autocomplete(String input) {
-        Log.v(LOG_TAG, "At least IT ENTERS HERE");
-
         ArrayList<String> resultList = null;
 
         HttpURLConnection conn = null;
