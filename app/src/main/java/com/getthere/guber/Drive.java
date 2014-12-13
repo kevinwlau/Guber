@@ -17,6 +17,7 @@ public class Drive extends Transport {
         driveTask.execute("driving");
     }
 
-    public String getCost() { return "0"; }
+    @Override
+    public String getCost() { return "$0"; }
 
 }

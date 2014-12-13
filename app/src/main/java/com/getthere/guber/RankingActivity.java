@@ -85,6 +85,7 @@ public class RankingActivity extends ActionBarActivity {
             mForecastAdapter.add(new Transit(start, dest, mForecastAdapter));
             mForecastAdapter.add(new Walk(start, dest, mForecastAdapter));
             mForecastAdapter.add(new Car2Go(start, dest, getActivity(), mForecastAdapter) );
+            mForecastAdapter.add(new Drive(start, dest, mForecastAdapter));
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             // Get a reference to the ListView, and attach this adapter to it.

@@ -90,6 +90,7 @@ public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.d("EXCEPTION RESPONSE: ", stringBuilder.toString());
         }
         Log.d("UberX Time: ", Integer.toString(time));
         return new Integer(time);
@@ -100,6 +101,7 @@ public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
     @Override
     protected void onPostExecute(Integer time){
         uber.setTimeToArrive(time);
+        uber.addDetail("Pickup ETA: " + Transport.formatTime(time));
         adapter.notifyDataSetChanged();
     }
 

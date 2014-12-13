@@ -95,6 +95,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.d("EXCEPTION RESPONSE: ", stringBuilder.toString());
         }
         Log.d("UberX Cost: ", cost);
         Log.d("Uber Surge: ", Double.toString(surge));
@@ -106,6 +107,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
     protected void onPostExecute(String[] result){
         uber.setCost(result[0]);
         uber.setSurge(result[1]);
+        uber.addDetail("Surge Multiplier: "+result[1]);
         adapter.notifyDataSetChanged();
     }
 

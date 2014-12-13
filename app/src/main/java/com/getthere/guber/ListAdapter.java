@@ -38,14 +38,7 @@ public class ListAdapter extends ArrayAdapter<Transport> {
         int duration = transport.get(position).getDuration();
 
         //Generate time String
-        int hours = duration / 3600;
-        int minutes = (duration % 3600) / 60;
-        int seconds = duration % 60;
-        String timeString = "";
-        if(hours!=0){
-            timeString += String.format("%d hrs ", hours);
-        }
-        timeString += String.format("%d mins %d secs", minutes, seconds);
+        String timeString = Transport.formatTime(duration);
 
         if(transport.get(position).getType().equals("Uber")){
             transportation.setText("Uber");
@@ -63,15 +56,14 @@ public class ListAdapter extends ArrayAdapter<Transport> {
             imageView.setImageResource(R.drawable.walk);
         }
         else if(transport.get(position).getType().equals("Public Transit")){
-            transportation.setText("Bus");
+            transportation.setText("Public Transit");
             information.setText("Estimated Time: " + timeString + "\nEstimated Cost:  " + cost);
             imageView.setImageResource(R.drawable.bus);
         }
         else if(transport.get(position).getType().equals("Driving")){
-            transportation.setText("Car");
+            transportation.setText("Drive");
             information.setText("Estimated Time: " + timeString + "\nEstimated Cost:  " + cost);
-            //no icon for this yet?!
-            imageView.setImageResource(R.drawable.ic_launcher);
+            imageView.setImageResource(R.drawable.car);
         }
 
         return rowView;

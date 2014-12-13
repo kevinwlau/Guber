@@ -4,6 +4,8 @@ import android.content.Intent;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Manav on 12/8/14.
@@ -18,15 +20,16 @@ abstract class Transport {
     private LatLng dest;
     private Intent intent;
 
+    private ArrayList<String> details;
+
     Transport(LatLng start, LatLng dest, String type){
         this.start = start;
         this.dest = dest;
         this.type = type;
+        details = new ArrayList<String>();
     }
 
-    public String getCost() {
-        return cost;
-    }
+    public String getCost() {return cost;}
 
     public void setCost(String cost) {
         this.cost = cost;
@@ -78,6 +81,29 @@ abstract class Transport {
 
     public void setIntent(Intent intent) {
         this.intent = intent;
+    }
+
+    public ArrayList<String> getDetails() { return details; }
+
+    public void setDetails(ArrayList<String> details) { this.details = details; }
+
+    public void addDetail(String detail) { details.add(detail); }
+
+    public static String formatTime(int duration){
+        int hours = duration / 3600;
+        int minutes = (duration % 3600) / 60;
+        int seconds = duration % 60;
+        String timeString = "";
+        if(hours!=0){
+            timeString += String.format("%d hrs ", hours);
+        }
+        timeString += String.format("%d mins %d secs", minutes, seconds);
+        return timeString;
+    }
+
+    public static String formatDistance(int distance){
+        double miles = distance/1609.0;
+        return String.format("$%.2f mi", miles);
     }
 
 }

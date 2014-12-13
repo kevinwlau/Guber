@@ -94,6 +94,7 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer[]> 
                     .getJSONObject(0).getJSONObject("distance").getInt("value");
         } catch( JSONException e) {
             e.printStackTrace();
+            Log.d("EXCEPTION RESPONSE: ", stringBuilder.toString());
         }
         Log.d(transport.getType()+ " "+ mode + " Time: ", duration.toString());
         Log.d(transport.getType()+ " "+ mode + " Distance: ", distance.toString());
@@ -106,6 +107,7 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer[]> 
     protected void onPostExecute(Integer[] result) {
         transport.setDuration(result[0]);
         transport.setDistance(result[1]);
+        transport.addDetail("Distance: " + Transport.formatDistance(result[1]));
         adapter.notifyDataSetChanged();
     }
 }

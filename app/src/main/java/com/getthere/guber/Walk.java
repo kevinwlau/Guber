@@ -20,6 +20,7 @@ public class Walk extends Transport {
         timeTask.execute("walking");
     }
 
+    @Override
     public String getCost() { return "$0"; }
 
 }

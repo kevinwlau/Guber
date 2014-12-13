@@ -109,14 +109,12 @@ public class Car2GoFetchCarTask extends AsyncTask<Double, Void, LatLng> {
                     result = car.toString();
                     nearestCarLat = carLat;
                     nearestCarLng = carLng;
-//                    Log.d("car:", result.toString());
-//                    Log.d("distance: ", distance.toString());
                 }
             }
-//            Log.d("Closest car:", result.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.d("EXCEPTION RESPONSE: ", stringBuilder.toString());
         }
         return new LatLng(nearestCarLat, nearestCarLng);
     }
