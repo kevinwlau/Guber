@@ -32,9 +32,9 @@ public class Uber extends Transport {
     @Override
     public int getDuration() {
         int duration = 0;
-        duration += super.getDuration();
-        duration += timeToArrive;
-        return duration;
+        int driveTime = super.getDuration();
+        if(driveTime<0 || timeToArrive<0) return -1;
+        return driveTime + timeToArrive;
     }
 
     public int getTimeToArrive() {

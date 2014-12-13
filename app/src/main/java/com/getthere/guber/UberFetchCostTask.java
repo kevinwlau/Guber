@@ -80,7 +80,8 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
 
         JSONObject jsonObject;
         String cost = new String();
-        Double surge = 1.0;
+        String surge = new String();
+        Double multiplier = 1.0;
         try {
             Log.d("String Uber: ",stringBuilder.toString());
             jsonObject = new JSONObject(stringBuilder.toString());
@@ -88,18 +89,21 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
             for(int i =0; i<prices.length(); i++) {
                 if(prices.getJSONObject(i).getString("display_name").equals("uberX")){
                     cost = prices.getJSONObject(i).getString("estimate");
-                    surge = prices.getJSONObject(i).getDouble("surge_multiplier");
+                    multiplier = prices.getJSONObject(i).getDouble("surge_multiplier");
+                    surge = Double.toString(multiplier);
                     break;
                 }
             }
 
         } catch (JSONException e) {
+            cost = "Unavailable";
+            surge = "Unavailable";
             e.printStackTrace();
             Log.d("EXCEPTION RESPONSE: ", stringBuilder.toString());
         }
         Log.d("UberX Cost: ", cost);
-        Log.d("Uber Surge: ", Double.toString(surge));
-        String[] result = {cost, Double.toString(surge)};
+        Log.d("Uber Surge: ", surge);
+        String[] result = {cost, surge};
         return result;
     }
 

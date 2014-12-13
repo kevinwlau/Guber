@@ -54,9 +54,11 @@ public class Car2Go extends Transport {
         int duration = 0;
 
         if(walkSegment!=null) {
+            if(walkSegment.getDuration() < 0) return -1;
             duration += walkSegment.getDuration();
         }
         if(driveSegment!=null) {
+            if(driveSegment.getDuration() < 0) return -1;
             duration += driveSegment.getDuration();
         }
 
@@ -68,11 +70,17 @@ public class Car2Go extends Transport {
 
         int duration = 0;
         double cost = 0;
-        if(walkSegment!=null)
+        if(walkSegment!=null){
+            if(walkSegment.getDuration() < 0) return "Unavailable";
             duration += walkSegment.getDuration();
-        if(driveSegment!=null)
+        }
+        if(driveSegment!=null){
+            if(driveSegment.getDuration() < 0) return "Unavailable";
             duration += driveSegment.getDuration();
+        }
         super.setDuration(duration);
+
+        if(duration<0) return "Unavailable";
 
         int remainingMinutes = (duration%3600)/60;
         int hours = duration/3600;
@@ -85,9 +93,11 @@ public class Car2Go extends Transport {
     public int getDistance(){
         int distance = 0;
         if(walkSegment!=null) {
+            if(walkSegment.getDistance() < 0) return -1;
             distance += walkSegment.getDistance();
         }
         if(driveSegment!=null) {
+            if(driveSegment.getDistance() < 0) return -1;
             distance += driveSegment.getDistance();
         }
         return distance;

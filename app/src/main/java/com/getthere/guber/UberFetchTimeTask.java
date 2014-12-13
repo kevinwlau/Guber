@@ -90,6 +90,7 @@ public class UberFetchTimeTask extends AsyncTask<Double, Void, Integer> {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            time = -1;
             Log.d("EXCEPTION RESPONSE: ", stringBuilder.toString());
         }
         Log.d("UberX Time: ", Integer.toString(time));

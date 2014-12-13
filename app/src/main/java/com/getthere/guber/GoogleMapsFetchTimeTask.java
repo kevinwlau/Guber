@@ -93,6 +93,8 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer[]> 
             distance = ((JSONArray) jsonObject.get("routes")).getJSONObject(0).getJSONArray("legs")
                     .getJSONObject(0).getJSONObject("distance").getInt("value");
         } catch( JSONException e) {
+            duration = -1;
+            distance = -1;
             e.printStackTrace();
             Log.d("EXCEPTION RESPONSE: ", stringBuilder.toString());
         }

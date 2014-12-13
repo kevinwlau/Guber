@@ -97,6 +97,7 @@ abstract class Transport {
     public void addDetail(String detail) { details.add(detail); }
 
     public static String formatTime(int duration){
+        if(duration<0) return "Unavailable";
         int hours = duration / 3600;
         int minutes = (duration % 3600) / 60;
         int seconds = duration % 60;
@@ -109,6 +110,7 @@ abstract class Transport {
     }
 
     public static String formatDistance(int distance){
+        if(distance<0) return "Unavailable";
         double miles = distance/1609.0;
         return String.format("%.2f mi", miles);
     }
