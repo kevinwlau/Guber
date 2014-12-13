@@ -52,19 +52,14 @@ public class Car2Go extends Transport {
     @Override
     public int getDuration(){
         int duration = 0;
-        ArrayList<String> details = new ArrayList<String>();
 
         if(walkSegment!=null) {
             duration += walkSegment.getDuration();
-            details.add(String.format("Walking time: " + Transport.formatTime(walkSegment.getDuration())) );
-            details.add(String.format("Walking distance: " + Transport.formatDistance(walkSegment.getDistance()) ));
         }
         if(driveSegment!=null) {
             duration += driveSegment.getDuration();
-            details.add(String.format("Driving time: " + Transport.formatTime(driveSegment.getDuration())) );
-            details.add(String.format("Driving distance: " + Transport.formatDistance(driveSegment.getDistance())));
         }
-        setDetails(details);
+
         return duration;
     }
 
@@ -94,11 +89,25 @@ public class Car2Go extends Transport {
         }
         if(driveSegment!=null) {
             distance += driveSegment.getDistance();
-            addDetail(String.format("Distance to destination: Distance: $%.2f mi", driveSegment.getDistance()/1609));
         }
         return distance;
     }
 
+    @Override
+    public String getDetails(){
+        ArrayList<String> details = new ArrayList<String>();
+        if(walkSegment!=null) {
+            details.add("Walking time: " + Transport.formatTime(walkSegment.getDuration()));
+            details.add("Walking distance: " + Transport.formatDistance(walkSegment.getDistance()));
+        }
+        if(driveSegment!=null) {
+            details.add("Driving time: " + Transport.formatTime(driveSegment.getDuration()));
+            details.add("Driving distance: " + Transport.formatDistance(driveSegment.getDistance()));
+        }
+        details.add("Estimated Cost: " + getCost());
+        super.setDetails(details);
+        return super.getDetails();
+    }
     public Transport getDriveSegment() {
         return driveSegment;
     }

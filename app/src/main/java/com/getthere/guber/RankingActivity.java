@@ -1,5 +1,7 @@
 package com.getthere.guber;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -79,7 +81,7 @@ public class RankingActivity extends ActionBarActivity {
             Log.v(LOG_TAG, "Dest coordinates are: " + dest.latitude + dest.longitude);
 
 
-            ArrayList<Transport> trans = new ArrayList<Transport>();
+            final ArrayList<Transport> trans = new ArrayList<Transport>();
             mForecastAdapter = new ListAdapter(getActivity(), trans);
             mForecastAdapter.add(new Uber(start, dest, mForecastAdapter));
             mForecastAdapter.add(new Transit(start, dest, mForecastAdapter));
@@ -96,9 +98,26 @@ public class RankingActivity extends ActionBarActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    Transport transport = mForecastAdapter.getItem(position);
-                    Intent intent = transport.getIntent();
-                    startActivity(intent);
+
+                    final Transport transport = mForecastAdapter.getItem(position);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(transport.getDetails()).setTitle(transport.getType());
+                    builder.setPositiveButton("Launch App", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            startActivity(transport.getIntent());
+                        }
+
+                    });
+
+                    builder.show();
+
+
+
+
+
                 }
             });
 

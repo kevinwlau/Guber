@@ -107,6 +107,7 @@ public class GoogleMapsFetchTimeTask extends AsyncTask<String, Void, Integer[]> 
     protected void onPostExecute(Integer[] result) {
         transport.setDuration(result[0]);
         transport.setDistance(result[1]);
+        transport.addDetail("Travel Time: " + Transport.formatTime(result[0]));
         transport.addDetail("Distance: " + Transport.formatDistance(result[1]));
         adapter.notifyDataSetChanged();
     }

@@ -83,7 +83,14 @@ abstract class Transport {
         this.intent = intent;
     }
 
-    public ArrayList<String> getDetails() { return details; }
+    public String getDetails() {
+        String text = "";
+        for(String s: details){
+            text += s;
+            text += "\n";
+        }
+        return text;
+    }
 
     public void setDetails(ArrayList<String> details) { this.details = details; }
 
@@ -103,7 +110,7 @@ abstract class Transport {
 
     public static String formatDistance(int distance){
         double miles = distance/1609.0;
-        return String.format("$%.2f mi", miles);
+        return String.format("%.2f mi", miles);
     }
 
 }

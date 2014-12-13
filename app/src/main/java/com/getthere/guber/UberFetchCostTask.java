@@ -107,6 +107,7 @@ public class UberFetchCostTask extends AsyncTask<Double, Void, String[]> {
     protected void onPostExecute(String[] result){
         uber.setCost(result[0]);
         uber.setSurge(result[1]);
+        uber.addDetail("Estimated Cost: "+result[0]);
         uber.addDetail("Surge Multiplier: "+result[1]);
         adapter.notifyDataSetChanged();
     }
