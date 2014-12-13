@@ -62,6 +62,7 @@ public class Car2Go extends Transport {
             duration += driveSegment.getDuration();
         }
 
+        if(duration==0) return Integer.MAX_VALUE;
         return duration;
     }
 
@@ -86,6 +87,7 @@ public class Car2Go extends Transport {
         int hours = duration/3600;
         cost += Math.min(remainingMinutes*minuteRate, hourRate);
         cost += hours*14.99;
+        if(cost==0) return "Retrieving...";
         return String.format("$%.2f",cost);
     }
 

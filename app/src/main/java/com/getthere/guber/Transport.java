@@ -31,7 +31,9 @@ abstract class Transport {
         duration = Integer.MAX_VALUE;
     }
 
-    public String getCost() {return cost;}
+    public String getCost() {
+        return cost;
+    }
 
     public void setCost(String cost) {
         this.cost = cost;

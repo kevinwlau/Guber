@@ -31,7 +31,6 @@ public class Uber extends Transport {
 
     @Override
     public int getDuration() {
-        int duration = 0;
         int driveTime = super.getDuration();
         if(driveTime<0 || timeToArrive<0) return -1;
         return driveTime + timeToArrive;
@@ -45,6 +44,12 @@ public class Uber extends Transport {
     }
     public String getSurge() {
         return surge;
+    }
+
+    @Override
+    public String getCost(){
+        if(super.getCost()==null) return "Retrieving...";
+        else return super.getCost();
     }
 
     public void setSurge(String surge) {
